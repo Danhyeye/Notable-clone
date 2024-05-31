@@ -1,0 +1,40 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "title": "First Note",
+      "content": "This is the first note.",
+      "tags": ["work", "personal"],
+      "attachments": ["file1.pdf", "file2.jpg"],
+      "favorite": true,
+      "pinned": false,
+      "inTrash": false,
+      "createdAt": "2023-01-01T00:00:00.000Z",
+      "modifiedAt": "2023-01-02T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Second Note",
+      "content": "This is the second note.",
+      "tags": ["danh"],
+      "attachments": ["file1.pdf", "file2.jpg"],
+      "favorite": true,
+      "pinned": true,
+      "inTrash": false,
+      "createdAt": "2023-01-01T00:00:00.000Z",
+      "modifiedAt": "2023-01-02T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Third Note",
+      "content": "This is the third note.",
+      "tags": ["work"],
+      "attachments": ["file1.pdf", "file2.jpg"],
+      "favorite": false,
+      "pinned": false,
+      "inTrash": false,
+      "createdAt": "2023-01-01T00:00:00.000Z",
+      "modifiedAt": "2023-01-02T00:00:00.000Z"
+    }
+  ]
+}
