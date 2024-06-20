@@ -77,7 +77,7 @@ const Note = () => {
 
   return (
     <>
-      <ul className="block h-full min-w-10 max-w-full w-full border px-5 py-1">
+      <ul className="block h-full min-w-10 max-w-full w-full px-5 py-1">
         <li className="flex justify-between w-auto">
           <div className="flex items-center min-w-20 max-w-full w-full space-x-2">
             <Input
@@ -93,7 +93,7 @@ const Note = () => {
               }
             />
             <Dropdown overlay={menu} trigger={['click']}>
-              <Button onClick={(e) => e.preventDefault()} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+              <Button onClick={(e) => e.preventDefault()} style={{ border: 'none', background: 'none', cursor: 'pointer', padding: 2 }}>
                 <span className="text-xs">{selectedSort}</span> <DownOutlined />
               </Button>
             </Dropdown>
@@ -105,7 +105,7 @@ const Note = () => {
               className="text-xs px-3 py-0">
               {iconToggle ? <UpOutlined /> : <DownOutlined />}
             </Button>
-            <Button className="px-4 py-0 m-1 ml-4" onClick={handleAddNote}><PlusOutlined /></Button>
+            <Button className="px-2 py-0 m-1 ml-4" onClick={handleAddNote}><PlusOutlined /></Button>
           </div>
         </li>
 

@@ -9,7 +9,9 @@
 }
 
 .note-item {
-  background: wheat;
+  /* background: url(https://i.pinimg.com/736x/56/e5/a8/56e5a8ce266d800e02667a0b442a953f.jpg); */
+  background-color: #eaeceb;
+  color: black;
   margin-bottom: 30px;
   padding: 16px;
   border-radius: 15px;

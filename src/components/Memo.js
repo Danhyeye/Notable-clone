@@ -12,7 +12,7 @@ import { Button, Radio, Input, Dropdown, Tag, Upload, List } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import 'github-markdown-css/github-markdown.css';
 import 'tailwindcss/tailwind.css';
-import { togglePin, toggleFavorite, addTag, deleteTag, moveNoteToTrash, restoreNote, deleteNotePermanently } from "../features/NoteSlice";
+import { togglePin, toggleFavorite, addTag, deleteTag, moveNoteToTrash, restoreNote, deleteNotePermanently, updateNoteTitle, setSelectedNote } from "../features/NoteSlice";
 import { PlusOutlined, InboxOutlined } from '@ant-design/icons';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -40,6 +40,12 @@ const Memo = () => {
         const newContent = e.target.value;
         setNoteContent(newContent);
         localStorage.setItem(`noteContent_${selectedNote.id}`, newContent);
+    };
+
+    const handleTitleChange = (e) => {
+        const newTitle = e.target.value;
+        dispatch(updateNoteTitle({ id: selectedNote.id, title: newTitle }));
+        dispatch(setSelectedNote({ ...selectedNote, title: newTitle }));
     };
 
     const togglePinNote = () => {
@@ -176,40 +182,44 @@ const Memo = () => {
     return (
         // <Modal title="Note Details" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <>
-
             <MathJaxContext>
-                <div className='p-0 w-full h-full border'>
-                    <div className='mx-4 my-2 h-fit min-w-fit'>
-                        <Radio.Group>
-                            <Radio.Button value="edit" onClick={() => setIsEditing(!isEditing)} className="ant-radio-button-wrapper-default">
+                <Input
+                    className='w-1/2 mb-4 ant-input'
+                    value={selectedNote?.title || ''}
+                    onChange={handleTitleChange}
+                />
+                <div className='p-0 w-full h-full'>
+                    <div className='mb-4 h-fit min-w-fit'>
+                        <Radio.Group >
+                            <Button type="text" onClick={() => setIsEditing(!isEditing)} className="ant-radio-button-wrapper-default px-2">
                                 <EditIcon fontSize="small" />
-                            </Radio.Button>
+                            </Button>
                             <Dropdown overlay={tagMenu} trigger={['click']}>
-                                <Radio.Button value="tag" className="ant-radio-button-wrapper-default">
+                                <Button type="text" className="ant-radio-button-wrapper-default px-2">
                                     <LocalOfferIcon fontSize="small" />
-                                </Radio.Button>
+                                </Button >
                             </Dropdown>
                             <Dropdown overlay={attachmentMenu} trigger={['click']}>
-                                <Radio.Button value="attachment" className="ant-radio-button-wrapper-default">
+                                <Button type="text" className="ant-radio-button-wrapper-default  px-2">
                                     <AttachFileIcon fontSize="small" />
-                                </Radio.Button>
+                                </Button >
                             </Dropdown>
-                            <Radio.Button value="favorite" onClick={toggleFavoriteNote} className="ant-radio-button-wrapper-default">
+                            <Button type="text" onClick={toggleFavoriteNote} className="ant-radio-button-wrapper-default  px-2">
                                 <StarIcon fontSize="small" />
-                            </Radio.Button>
-                            <Radio.Button value="pin" onClick={togglePinNote} className="ant-radio-button-wrapper-default">
+                            </Button >
+                            <Button type="text" onClick={togglePinNote} className="ant-radio-button-wrapper-default  px-2">
                                 <PushPinOutlinedIcon fontSize="small" />
-                            </Radio.Button>
+                            </Button >
 
 
 
 
                             {!selectedNote?.inTrash ? (
-                                <Radio.Button onClick={handleDelete} ><DeleteIcon fontSize="small" /></Radio.Button>
+                                <Button type="text" onClick={handleDelete} className="ant-radio-button-wrapper-default  px-2" ><DeleteIcon fontSize="small" /></Button >
                             ) : (
                                 <>
-                                    <Button onClick={handleRestore} ><RestoreFromTrashIcon /></Button>
-                                    <Button onClick={handleDeletePermanently} ><DeleteForeverIcon /></Button>
+                                    <Button type="text" onClick={handleRestore} className="ant-radio-button-wrapper-default  px-2"><RestoreFromTrashIcon /></Button>
+                                    <Button type="text" onClick={handleDeletePermanently} className="ant-radio-button-wrapper-default  px-2"><DeleteForeverIcon /></Button>
                                 </>
                             )}
                         </Radio.Group>
@@ -218,17 +228,15 @@ const Memo = () => {
                     <div className='w-full h-full ' >
                         {isEditing ? (
                             <TextArea
-                                className='p-4 h-full'
                                 value={noteContent}
                                 onChange={handleContentChange}
-                                placeholder="Nhập tiêu đề và nội dung ghi chú tại đây"
-                                style={{ height: "fit-content", resize: 'none' }}
+                                placeholder="Enter your note here..."
+                                style={{ height: "500px", resize: 'none' }}
 
                             />
                         ) : (
-                            <div className='markdown-body rounded-lg w-full h-full mx-4 p-4' style={{ height: "fit-content", backgroundColor: "black", color: "white" }}>
+                            <div className='markdown-body rounded-lg w-full h-full mx-4 p-4 my-4' style={{ height: "fit-content", backgroundColor: "black", color: "white" }}>
                                 <ReactMarkdown
-
                                     remarkPlugins={[remarkGfm]}
                                     components={{
                                         math: ({ value }) => <MathJax>{`\\(${value}\\)`}</MathJax>,
@@ -242,7 +250,6 @@ const Memo = () => {
                     </div>
                 </div>
             </MathJaxContext>
-            {/* // </Modal> */}
         </>
     );
 };

@@ -9,16 +9,18 @@ import '../styles/masonry.css';
 import ReactMarkdown from 'react-markdown';
 import { MathJax } from 'better-react-mathjax';
 import remarkGfm from 'remark-gfm';
-import Memo from './Memo'; // Import the Memo component
-
+import Memo from './Memo';
+import "../styles/tailwind.css";
 const NoteList = ({ notes }) => {
     const dispatch = useDispatch();
+    // eslint-disable-next-line
     const [editingId, setEditingId] = useState(null);
     const [newTitle, setNewTitle] = useState('');
     const { currentFilter, selectedNote } = useSelector(state => state.note);
     // eslint-disable-next-line
     const [noteContent, setNoteContent] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+
 
     useEffect(() => {
         notes.forEach(note => {
@@ -47,17 +49,6 @@ const NoteList = ({ notes }) => {
         setNewTitle(newTitle);
         if (editingId) {
             localStorage.setItem(`noteTitle_${editingId}`, newTitle);
-        }
-    };
-
-    const handleKeyDown = (e, noteId) => {
-        if (e.key === 'F2') {
-            setEditingId(noteId);
-            const selectedNote = notes.find(note => note.id === noteId);
-            setNewTitle(localStorage.getItem(`noteTitle_${noteId}`) || selectedNote.title);
-        } else if (e.key === 'Enter' && editingId) {
-            dispatch(updateNoteTitle({ id: editingId, title: newTitle }));
-            setEditingId(null);
         }
     };
 
@@ -99,11 +90,16 @@ const NoteList = ({ notes }) => {
         <>
             <Masonry
                 breakpointCols={breakpointColumnsObj}
-                className="my-masonry-grid"
+                className="my-masonry-grid break-all"
                 columnClassName="my-masonry-grid_column"
             >
                 {filteredNotes.map(note => (
-                    <div key={note.id} onClick={() => handleNoteSelect(note.id)} onKeyDown={(e) => handleKeyDown(e, note.id)} tabIndex={0} className="note-item my-6 hover:bg-white ">
+                    <div
+                        key={note.id}
+                        onClick={() => handleNoteSelect(note.id)}
+                        tabIndex={0}
+                        className="note-item my-6 hover:bg-white"
+                    >
                         {editingId === note.id ? (
                             <Input
                                 value={newTitle}
@@ -112,8 +108,8 @@ const NoteList = ({ notes }) => {
                             />
                         ) : (
                             <button className='w-full flex flex-col justify-between items-center '>
-                                <div className='flex flex-col items-center h-full'>
-                                    <span className="text-left">{note.title}</span>
+                                <div className='flex flex-col items-center h-full note-content whitespace-pre-line max-h-96 truncate'>
+                                    <span className="text-left"><strong>{note.title}</strong></span>
                                     <ReactMarkdown
                                         remarkPlugins={[remarkGfm]}
                                         components={{
@@ -151,15 +147,18 @@ const NoteList = ({ notes }) => {
                             </button>
                         )}
                     </div>
+
                 ))}
+
             </Masonry>
 
             <Modal
-                title="Note Details"
                 visible={isModalVisible}
-                onCancel={() => setIsModalVisible(false)}
+                onCancel={() => {
+                    setIsModalVisible(false);
+                }}
                 footer={null}
-                width={1000}
+                className='w-full'
             >
                 <Memo />
             </Modal>

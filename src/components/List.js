@@ -21,7 +21,7 @@ const List = () => {
   // const toggleShowTrashedNotes = () => {
   //   dispatch(setShowTrashedNotes(!showTrashedNotes));
   // };
-  // Filter out notes that are in the trash
+
   const activeNotes = notes.filter(note => !note.inTrash);
 
   const noteCount = activeNotes.length;
@@ -86,8 +86,9 @@ const List = () => {
         closable={false}
         onClose={onClose}
         visible={visible}
+        width={300}
       >
-        <ul className="block h-screen left-0 w-full border px-1">
+        <ul className="block h-screen left-0 w-full  px-1">
           <li className="m-2 w-100">
             <Button block className="flex items-center justify-between space-x-2" onClick={() => handleFilterChange('All')}>
               <div className="flex items-center space-x-2">

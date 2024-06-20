@@ -89,13 +89,7 @@ export const NoteSlice = createSlice({
                 localStorage.setItem('notes', JSON.stringify(state.notes));
             }
         },
-        updateNoteTitle: (state, action) => {
-            const index = state.notes.findIndex(note => note.id === action.payload.id);
-            if (index !== -1) {
-                state.notes[index].title = action.payload.title;
-                localStorage.setItem('notes', JSON.stringify(state.notes));
-            }
-        },
+
         togglePin: (state, action) => {
             const noteId = action.payload;
             const updatedNotes = state.notes.map(note => {
@@ -161,6 +155,14 @@ export const NoteSlice = createSlice({
         },
         setCurrentFilter: (state, action) => {
             state.currentFilter = action.payload;
+        },
+        updateNoteTitle(state, action) {
+            const { id, title } = action.payload;
+            const noteToUpdate = state.notes.find(note => note.id === id);
+            if (noteToUpdate) {
+                noteToUpdate.title = title;
+            }
+            localStorage.setItem('notes', JSON.stringify(state.notes));
         },
     }
 });
