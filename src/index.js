@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { store } from './features/store';
-import * as serviceWorker from './serviceWorker';
+import store from './features/store';
+// import * as serviceWorker from './serviceWorker';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,5 +14,5 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
-serviceWorker.register();
+// serviceWorker.register();
 reportWebVitals();
